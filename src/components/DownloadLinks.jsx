@@ -3,7 +3,7 @@ import { BsApple } from 'react-icons/bs';
 
 const DownloadLinks = () => {
   return (
-    <div className="flex flex-row mt-16 gap-4">
+    <div className="flex flex-row mt-12 pb-10 gap-4">
       <button
         type="text"
         className="h-10 bg-gray-950 text-left px-1 py-1 text-white text-sm rounded-[4px] flex flex-row items-center gap-1"

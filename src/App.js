@@ -3,11 +3,11 @@ import { PhoneSlider, DownloadLinks, SignUpForm } from './components';
 
 const App = () => {
   return (
-    <div className="bg-white flex flex-col justify-center items-center h-screen">
-      <div className="w-[80%] h-[80vh] bg-white shadow-[0_48px_128px_rgba(0,0,0,0.4)]">
-        <div className="flex flex-row">
+    <div className="bg-white flex flex-col justify-center items-center w-full h-full sm:h-screen">
+      <div className="w-[80%] bg-white shadow-[0_48px_128px_rgba(0,0,0,0.4)]">
+        <div className="flex flex-col sm:flex-row">
           <PhoneSlider />
-          <div className="w-3/5 flex flex-col justify-start px-14">
+          <div className="w-full sm:w-3/5 flex flex-col justify-start px-14">
             <div className="flex flex-row gap-2 mt-10 items-center">
               <img src={logo} alt="logo" />
               <p className="font-bold text-[1rem] text-gray-950">Capzul</p>
