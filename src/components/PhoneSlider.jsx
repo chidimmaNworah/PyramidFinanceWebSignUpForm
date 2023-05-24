@@ -1,35 +1,100 @@
-import React from 'react';
-import { phone, threeinone } from '../assets';
+import React, { useEffect, useState } from 'react';
+import { phone } from '../assets';
 
 const PhoneSlider = () => {
+  const [carouselArray, setCarouselArray] = useState([]);
+  const carouselControls = ['.', '.'];
+
+  useEffect(() => {
+    const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+    setCarouselArray(galleryItems);
+  }, []);
+
+  const updateGallery = () => {
+    carouselArray.forEach((el) => {
+      el.classList.remove('gallery-item-1');
+      el.classList.remove('gallery-item-2');
+      el.classList.remove('gallery-item-3');
+    });
+
+    carouselArray.slice(0, 5).forEach((el, i) => {
+      el.classList.add(`gallery-item-${i + 1}`);
+    });
+  };
+
+  const setCurrentState = (direction) => {
+    if (direction.className === 'gallery-controls-previous') {
+      setCarouselArray((prevArray) => [prevArray.pop(), ...prevArray]);
+    } else {
+      setCarouselArray((prevArray) => [...prevArray.slice(1), prevArray[0]]);
+    }
+    updateGallery();
+  };
+
+  const setControls = () => {
+    const controls = carouselControls.map((control) => (
+      <button
+        key={control}
+        className={`gallery-controls-${control}`}
+        onClick={() => setCurrentState(control)}
+      >
+        {control}
+      </button>
+    ));
+
+    const middleButton = (
+      <p
+        key="middle"
+        className="text-[10rem] text-white mb-[0.8rem] -mx-[0.7rem]"
+        onClick={() => {
+          // Add your logic for the middle button
+        }}
+      >
+        .
+      </p>
+    );
+
+    // Insert the middle button between the existing buttons
+    const controlsWithMiddle = controls
+      .slice(0, 1)
+      .concat(middleButton, controls.slice(1));
+
+    return controlsWithMiddle;
+  };
+
   return (
     <div className="gradient-bg bg-cover bg-no-repeat bg-center flex flex-col justify-around p-5 items-center w-full sm:w-2/5 text-sm text-center">
       <p className="mb-6 text-[1.2rem]">
         Social media shared today, tomorrow or by location
       </p>
-      <div className="ellipse-gradient rounded-full w-full h-[70%]">
-        {/* <div class="relative">
-          <div className="flex flex-row justify-center items-center gap-4">
-            <div class="rounded-lg top-12 left-[3rem]">
-              <img src={phone} alt="phone" className="w-[12rem]" />
-            </div>
-
-            <div class="rounded-lg left-[15rem] top-12">
-              <img src={phone} alt="phone" className="w-[12rem]" />
-            </div>
-          </div>
-          <div class="mt-[-80%] ml-[10rem] rounded-lg left-[7.8rem] top-3">
-            <img src={phone} alt="phone" className="w-[18rem]" />
-          </div>
-        </div> */}
-        <div className="flex flex-row justify-center-items-center">
-          <img src={threeinone} alt="photothree" />
+      <div className="gallery">
+        <div className="gallery-container">
+          <img
+            src={phone}
+            alt="img"
+            className={`gallery-item gallery-item-1 ${
+              carouselArray.length >= 1 ? '' : 'hidden'
+            }`}
+            data-index="1"
+          />
+          <img
+            src={phone}
+            alt="img"
+            className={`gallery-item gallery-item-2 ${
+              carouselArray.length >= 2 ? '' : 'hidden'
+            }`}
+            data-index="2"
+          />
+          <img
+            src={phone}
+            alt="img"
+            className={`gallery-item gallery-item-3 ${
+              carouselArray.length >= 3 ? '' : 'hidden'
+            }`}
+            data-index="3"
+          />
         </div>
-      </div>
-      <div className="flex flex-row items-center">
-        <div className="rounded-full w-[4.2px] h-[4.2px] bg-white/70 m-[2px]"></div>
-        <div className="rounded-full w-[6.2px] h-[6.2px] bg-white m-[2px]"></div>
-        <div className="rounded-full w-[4.2px] h-[4.2px] bg-white/70 m-[2px]"></div>
+        <div className="gallery-controls">{setControls()}</div>
       </div>
     </div>
   );
